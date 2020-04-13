@@ -12,7 +12,8 @@ public class TableInfo {
 	private String tabelName;
 	
 	private String modleName;
-	
+	private String modleNameFirstToLowpper;
+
 	private String tableComment;
 	
 	private String idType;
@@ -28,6 +29,7 @@ public class TableInfo {
 		}
 		this.modleName = modelName;
 		this.tableComment = arr[1] != null ? String.valueOf(arr[1]) : "";
+		this.modleNameFirstToLowpper = modleName.substring(0,1).toUpperCase()+modleName.substring(1);
 	}
 
 	public String getTabelName() {
@@ -60,6 +62,14 @@ public class TableInfo {
 
 	public void setIdType(String idType) {
 		this.idType = idType;
+	}
+
+	public String getModleNameFirstToLowpper() {
+		return modleNameFirstToLowpper;
+	}
+
+	public void setModleNameFirstToLowpper(String modleNameFirstToLowpper) {
+		this.modleNameFirstToLowpper = modleNameFirstToLowpper;
 	}
 
 	@Override

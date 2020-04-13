@@ -1,0 +1,22 @@
+package ${packagePath}.dal.entity;
+
+import java.util.Date;
+import com.feifanuniv.common.BaseObject;
+
+public class ${tableInfo.modleName}Data extends BaseObject {
+<#list proList as item>
+
+	private ${item.modelType} ${item.modelName};
+</#list>
+<#list proList as item>
+
+   	public ${item.modelType} get${item.modelNameFirstUpper}() {
+		return ${item.modelName};
+	}
+
+	public void set${item.modelNameFirstUpper}(${item.modelType} ${item.modelName}) {
+		this.${item.modelName} = ${item.modelName};
+	}
+</#list>
+
+}

@@ -85,24 +85,23 @@ public class GeneratorHelperServiceImpl implements GeneratorHelperService {
 			}
 		}
 		item.setIdType(idType);
+		createModelData(item, columnInfos);
 		createModel(item, columnInfos);
-		createOther(item,"dao");
-		createOther(item,"service");
-		createOther(item,"serviceImpl");
-		createOther(item,"controller");
+		createOther(item,"dal", columnInfos);
+		createOther(item,"manager", columnInfos);
 		return true;
 	}
 
 	
-	private void createModel(TableInfo item, List<ColumnInfo> columnInfos) {
+	private void createModelData(TableInfo item, List<ColumnInfo> columnInfos) {
 		String path = getUpPath();
-		String dir = String.format("%s/domain",path);
+		String dir = String.format("%s/dal/entity",path);
 		File file = new File(dir);
 		if(!file.exists()){
 			file.mkdirs();
 		}
 		String templetePath = String.format("%s%s", localProjectPath,propertyMap.get("templetePath"));
-		String filePath = String.format("%s/%s.java", dir,item.getModleName());
+		String filePath = String.format("%s/%sData.java", dir,item.getModleName());
 		
 		Map<String, Object> data = Maps.newHashMap();
 		data.put("proList", columnInfos);
@@ -110,8 +109,28 @@ public class GeneratorHelperServiceImpl implements GeneratorHelperService {
 		data.put("modellower", item.getModleName().toLowerCase());
 		data.put("tableInfo", item);
 		data.put("packagePath", Joiner.on(".").join(propertyMap.get("packagePath").split("/")).substring(15));
-		createTempleteFile(filePath,templetePath,"domain.flt",data);
+		createTempleteFile(filePath,templetePath,"entityData.flt",data);
 		
+	}
+
+	private void createModel(TableInfo item, List<ColumnInfo> columnInfos) {
+		String path = getUpPath();
+		String dir = String.format("%s/manager/model",path);
+		File file = new File(dir);
+		if(!file.exists()){
+			file.mkdirs();
+		}
+		String templetePath = String.format("%s%s", localProjectPath,propertyMap.get("templetePath"));
+		String filePath = String.format("%s/%s.java", dir,item.getModleName());
+
+		Map<String, Object> data = Maps.newHashMap();
+		data.put("proList", columnInfos);
+		data.put("modelParam", String.format("%s%s",item.getModleName().substring(0, 1).toLowerCase(),item.getModleName().substring(1)));
+		data.put("modellower", item.getModleName().toLowerCase());
+		data.put("tableInfo", item);
+		data.put("packagePath", Joiner.on(".").join(propertyMap.get("packagePath").split("/")).substring(15));
+		createTempleteFile(filePath,templetePath,"entity.flt",data);
+
 	}
 
 	private void createTempleteFile(String filename, String templetePath,String templeteName,
@@ -146,14 +165,10 @@ public class GeneratorHelperServiceImpl implements GeneratorHelperService {
 				propertyMap.get("packagePath"));
 	}
 
-	private void createOther(TableInfo item,String type) {
+	private void createOther(TableInfo item,String type, List<ColumnInfo> columnInfos) {
 		String path = getUpPath();
-		String lastDir = type;
-		if("serviceImpl".equals(type)){
-			lastDir = "service/impl";
-		}
-		
-		String dir = String.format("%s/%s",path,lastDir);
+
+		String dir = String.format("%s/%s",path,type);
 		File file = new File(dir);
 		if(!file.exists()){
 			file.mkdirs();
@@ -162,6 +177,7 @@ public class GeneratorHelperServiceImpl implements GeneratorHelperService {
 		String filePath = String.format("%s/%s.java", dir,item.getModleName()+type.substring(0,1).toUpperCase()+type.substring(1));
 		
 		Map<String, Object> data = Maps.newHashMap();
+		data.put("proList", columnInfos);
 		data.put("modelParam", String.format("%s%s",item.getModleName().substring(0, 1).toLowerCase(),item.getModleName().substring(1)));
 		data.put("modellower", item.getModleName().toLowerCase());
 		data.put("item", item);

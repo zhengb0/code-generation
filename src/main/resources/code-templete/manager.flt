@@ -1,0 +1,79 @@
+package ${packagePath}.manager;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+import com.feifanuniv.common.bll.SchoolManagerBase;
+import com.feifanuniv.qingshu.model.HResult;
+import com.feifanuniv.common.datastructure.GenericResult;
+import com.feifanuniv.common.datastructure.NoneDataResult;
+import ${packagePath}.dal.DalFactory;
+import ${packagePath}.dal.entity.${item.modleName}Data;
+import ${packagePath}.manager.model.${item.modleName};
+
+public class ${item.modleName}Manager extends SchoolManagerBase {
+
+    private static Map<Integer, ${item.modleName}Manager> instanceMap = new ConcurrentHashMap<>();
+
+    private static Logger logger = LoggerFactory.getLogger(${item.modleName}Manager.class);
+
+    public static ${item.modleName}Manager instance(int schoolId) {
+        return instanceMap.computeIfAbsent(schoolId, ${item.modleName}Manager::new);
+    }
+
+    public ${item.modleName}Manager(int schoolId) {
+        super(schoolId);
+    }
+
+    public NoneDataResult create(${item.modleName} ${item.modleNameFirstToLowpper}) {
+        NoneDataResult result = new NoneDataResult();
+
+        try {
+            DalFactory.instance(getSchoolId()).get${item.modleName}Dal().create(${item.modleNameFirstToLowpper}.toData());
+        } catch (Exception e) {
+            logger.error("${item.modleName}Manager create error:", e);
+            result.setHr(HResult.E_DATABASE_INSERT_ERROR);
+        }
+        return result;
+    }
+
+    public NoneDataResult update(${item.modleName} ${item.modleNameFirstToLowpper}) {
+        NoneDataResult result = new NoneDataResult();
+
+        try {
+            DalFactory.instance(getSchoolId()).get${item.modleName}Dal().update(${item.modleNameFirstToLowpper}.toData());
+        } catch (Exception e) {
+            logger.error("${item.modleName}Manager update error:", e);
+            result.setHr(HResult.E_DATABASE_UPDATE_ERROR);
+        }
+        return result;
+    }
+
+    public NoneDataResult delete(int id) {
+        NoneDataResult result = new NoneDataResult();
+
+        try {
+            DalFactory.instance(getSchoolId()).get${item.modleName}Dal().delete(id);
+        } catch (Exception e) {
+            logger.error("${item.modleName}Manager delete error:", e);
+            result.setHr(HResult.E_DATABASE_DELETE_ERROR);
+        }
+        return result;
+    }
+
+    public GenericResult<${item.modleName}> getById(int id) {
+        GenericResult<${item.modleName}> result = new GenericResult<>();
+
+        try {
+            ${item.modleName}Data data = DalFactory.instance(getSchoolId()).get${item.modleName}Dal().getById(id);
+            if (data != null) {
+                result.setData(new ${item.modleName}(data));
+            }
+        } catch (Exception e) {
+            logger.error("${item.modleName}Manager getById error:", e);
+            result.setHr(HResult.E_DATABASE_GET_ERROR);
+        }
+        return result;
+    }
+}

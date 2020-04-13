@@ -58,27 +58,27 @@ public class ColumnInfo {
 			this.modelType = "String";
 			this.modelDefault = typeLower;
 		}else if(typeLower.startsWith("int") || typeLower.startsWith("tinyint")){
-			this.modelType = "int";
+			this.modelType = "Integer";
 			if(StringUtils.isBlank(this.columnDefault)){
 				this.modelDefault = "0";
 			}
 			this.modelDefault = String.format("%s default %s", this.columnType.substring(0, this.columnType.indexOf("(")),this.modelDefault);
 		}else if(typeLower.startsWith("bigint")){
-			this.modelType = "long";
+			this.modelType = "Long";
 			if(StringUtils.isBlank(this.columnDefault)){
 				this.modelDefault = "0";
 			}
 			this.modelDefault = String.format("%s default %s", this.columnType.substring(0, this.columnType.indexOf("(")),this.modelDefault);
 		}else if(typeLower.startsWith("timestamp") || typeLower.startsWith("datetime")){
-			this.modelType = "Timestamp";
+			this.modelType = "Date";
 		}else if(typeLower.startsWith("double")){
-			this.modelType = "double";
+			this.modelType = "Double";
 			if(StringUtils.isBlank(this.columnDefault)){
 				this.modelDefault = "0.0";
 			}
 			this.modelDefault = String.format("%s default %s", this.columnType,this.modelDefault);
 		}else if(typeLower.startsWith("float")){
-			this.modelType = "float";
+			this.modelType = "Float";
 			if(StringUtils.isBlank(this.columnDefault)){
 				this.modelDefault = "0.0";
 			}

@@ -1,0 +1,37 @@
+package ${packagePath}.manager.model;
+
+import java.util.Date;
+import com.feifanuniv.common.BaseObject;
+import com.feifanuniv.degree.dal.entity.${tableInfo.modleName}Data;
+
+public class ${tableInfo.modleName} extends CacheableObject {
+<#list proList as item>
+
+	private ${item.modelType} ${item.modelName};
+</#list>
+<#list proList as item>
+
+   	public ${item.modelType} get${item.modelNameFirstUpper}() {
+		return ${item.modelName};
+	}
+
+	public void set${item.modelNameFirstUpper}(${item.modelType} ${item.modelName}) {
+		this.${item.modelName} = ${item.modelName};
+	}
+</#list>
+    public ${tableInfo.modleName}(${tableInfo.modleName}Data data) {
+        if (data != null) {
+        <#list proList as item>
+            this.${item.modelName} = data.get${item.modelNameFirstUpper}();
+        </#list>
+        }
+    }
+
+    public ${tableInfo.modleName}Data toData() {
+        ${tableInfo.modleName}Data data = new ${tableInfo.modleName}Data();
+        <#list proList as item>
+        set${item.modelNameFirstUpper}(this.${item.modelName});
+        </#list>
+        return data;
+    }
+}

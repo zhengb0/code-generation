@@ -1,0 +1,73 @@
+package ${packagePath}.dal;
+
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.HashMap;
+import java.util.Map;
+
+import org.springframework.jdbc.core.RowMapper;
+
+import com.feifanuniv.common.dal.sqlutil.SchoolDalBase;
+import ${packagePath}.dal.entity.${item.modleName}Data;
+
+public class ${item.modleName}Dal extends SchoolDalBase {
+
+    public ${item.modleName}Dal(int schoolId) {
+		super(schoolId);
+	}
+
+	public void create(${item.modleName}Data data) {
+    	Map<String, Object> parameters = new HashMap<>();
+    	<#list proList as item>
+    	<#if item.modelName == "id" || item.modelName == "createdTime" || item.modelName == "updatedTime">
+        <#else>
+        parameters.put("in_${item.columnName}", data.get${item.modelNameFirstUpper}());
+        </#if>
+        </#list>
+    	Execute("${item.tabelName}_create", parameters);
+    }
+
+    public void update(${item.modleName}Data data) {
+        Map<String, Object> parameters = new HashMap<>();
+        <#list proList as item>
+        <#if item.modelName == "createdTime" || item.modelName == "updatedTime">
+        <#else>
+        parameters.put("in_${item.columnName}", data.get${item.modelNameFirstUpper}());
+        </#if>
+        </#list>
+        Execute("${item.tabelName}_update", parameters);
+    }
+
+    public void delete(int id) {
+        Map<String, Object> parameters = new HashMap<>(2);
+        parameters.put("in_id", id);
+        Execute("${item.tabelName}_delete", parameters);
+    }
+
+    public ${item.modleName}Data getById(int id) {
+        Map<String, Object> parameters = new HashMap<>(2);
+        parameters.put("in_id", id);
+        return ExecuteReturnObject("${item.tabelName}_get_by_id", parameters, new ${item.modleName}RowMapper());
+    }
+}
+
+class ${item.modleName}RowMapper implements RowMapper<${item.modleName}Data> {
+
+    @Override
+    public ${item.modleName}Data mapRow(ResultSet rs, int rowNum) throws SQLException {
+        ${item.modleName}Data data = new ${item.modleName}Data();
+
+        <#list proList as item>
+        <#if item.modelType == "Integer">
+        data.set${item.modelNameFirstUpper}(rs.getInt("${item.columnName}"));
+        <#else>
+        <#if item.modelType == "Date">
+        data.set${item.modelNameFirstUpper}(rs.getTimestamp("${item.columnName}"));
+        <#else>
+        data.set${item.modelNameFirstUpper}(rs.get${item.modelType}("${item.columnName}"));
+        </#if>
+        </#if>
+        </#list>
+        return data;
+    }
+}
