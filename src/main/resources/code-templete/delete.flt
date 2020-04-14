@@ -1,0 +1,12 @@
+DROP PROCEDURE IF EXISTS `${item.tabelName}_delete`;
+
+DELIMITER $$
+CREATE PROCEDURE `${item.tabelName}_delete`(
+    IN in_id INT(11)
+)
+BEGIN
+
+    DELETE FROM ${item.tabelName} WHERE id = in_id;
+
+END $$
+DELIMITER ;

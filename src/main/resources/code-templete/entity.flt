@@ -6,8 +6,10 @@ import com.feifanuniv.degree.dal.entity.${tableInfo.modleName}Data;
 
 public class ${tableInfo.modleName} extends CacheableObject {
 <#list proList as item>
-
+    <#if item.modelName == "id">
+    <#else>
 	private ${item.modelType} ${item.modelName};
+	</#if>
 </#list>
 <#list proList as item>
 

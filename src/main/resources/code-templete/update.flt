@@ -1,0 +1,29 @@
+DROP PROCEDURE IF EXISTS `${item.tabelName}_update`;
+
+DELIMITER $$
+CREATE PROCEDURE `${item.tabelName}_update`(
+<#list proList as item>
+    <#if !item_has_next>
+    IN in_${item.columnName} ${item.columnTypeUpper}
+    <#else>
+    IN in_${item.columnName} ${item.columnTypeUpper},
+    </#if>
+</#list>
+)
+BEGIN
+
+    UPDATE ${item.tabelName} SET
+    <#list proList as item>
+    <#if item.modelName == "id">
+    <#else>
+    <#if !item_has_next>
+    ${item.columnName} = in_${item.columnName}
+    <#else>
+    ${item.columnName} = in_${item.columnName},
+    </#if>
+    </#if>
+    </#list>
+    WHERE id = in_id;
+
+END $$
+DELIMITER ;

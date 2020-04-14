@@ -11,6 +11,7 @@ public class ColumnInfo {
 	private String columnDefault;
 	private String columnComment;
 	private String columnCharacterMaximumLength;
+	private String columnTypeUpper;
 	
 	private String modelName;
 	private String modelType;
@@ -28,7 +29,7 @@ public class ColumnInfo {
 		this.columnDefault = arr[2] != null ? String.valueOf(arr[2]) : "";
 		this.columnComment = arr[3] != null ? String.valueOf(arr[3]) : "";
 		this.columnCharacterMaximumLength = arr[4] != null ? String.valueOf(arr[4]) : "";
-		
+		this.columnTypeUpper = columnType.toUpperCase();
 		this.modelComment = this.columnComment;
 		this.modelCharacterMaximumLength = this.columnCharacterMaximumLength;
 		
@@ -163,6 +164,14 @@ public class ColumnInfo {
 
 	public void setModelCharacterMaximumLength(String modelCharacterMaximumLength) {
 		this.modelCharacterMaximumLength = modelCharacterMaximumLength;
+	}
+
+	public String getColumnTypeUpper() {
+		return columnTypeUpper;
+	}
+
+	public void setColumnTypeUpper(String columnTypeUpper) {
+		this.columnTypeUpper = columnTypeUpper;
 	}
 
 	@Override

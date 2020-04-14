@@ -7,6 +7,7 @@ import java.io.Writer;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -89,6 +90,10 @@ public class GeneratorHelperServiceImpl implements GeneratorHelperService {
 		createModel(item, columnInfos);
 		createOther(item,"dal", columnInfos);
 		createOther(item,"manager", columnInfos);
+		createSproc(item,"create", columnInfos);
+		createSproc(item,"update", columnInfos);
+		createSproc(item,"delete", columnInfos);
+		createSproc(item,"get_by_id", columnInfos);
 		return true;
 	}
 
@@ -184,6 +189,27 @@ public class GeneratorHelperServiceImpl implements GeneratorHelperService {
 		data.put("packagePath", Joiner.on(".").join(propertyMap.get("packagePath").split("/")).substring(15));
 		
 		createTempleteFile(filePath,templetePath,String.format("%s.flt", type),data);
+	}
+
+	private void createSproc(TableInfo item, String type, List<ColumnInfo> columnInfos) {
+		String path = getUpPath();
+
+		String dir = String.format("%s/%s",path,"sproc");
+		File file = new File(dir);
+		if(!file.exists()){
+			file.mkdirs();
+		}
+		String templetePath = String.format("%s%s", localProjectPath,propertyMap.get("templetePath"));
+		String filePath = String.format("%s/%s.sql", dir,item.getTabelName() + "_" + type);
+
+		Map<String, Object> data = Maps.newHashMap();
+		data.put("proList", columnInfos.stream().filter(c->!c.getColumnName().contains("created_time") && !c.getColumnName().contains("updated_time")).collect(Collectors.toList()));
+		data.put("modelParam", String.format("%s%s",item.getModleName().substring(0, 1).toLowerCase(),item.getModleName().substring(1)));
+		data.put("modellower", item.getModleName().toLowerCase());
+		data.put("item", item);
+		data.put("packagePath", Joiner.on(".").join(propertyMap.get("packagePath").split("/")).substring(15));
+
+		createTempleteFile(filePath,templetePath,String.format("%s.flt", type), data);
 	}
 
 }
