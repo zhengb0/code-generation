@@ -12,7 +12,8 @@ public class ${tableInfo.modleName} extends CacheableObject {
 	</#if>
 </#list>
 <#list proList as item>
-
+    <#if item.modelName == "id">
+    <#else>
    	public ${item.modelType} get${item.modelNameFirstUpper}() {
 		return ${item.modelName};
 	}
@@ -20,7 +21,9 @@ public class ${tableInfo.modleName} extends CacheableObject {
 	public void set${item.modelNameFirstUpper}(${item.modelType} ${item.modelName}) {
 		this.${item.modelName} = ${item.modelName};
 	}
+	</#if>
 </#list>
+
     public ${tableInfo.modleName}(${tableInfo.modleName}Data data) {
         if (data != null) {
         <#list proList as item>
