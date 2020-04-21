@@ -11,7 +11,8 @@ public class ${tableInfo.modleName}Data extends BaseObject {
     </#if>
 </#list>
 <#list proList as item>
-
+    <#if item.modelName == "id">
+    <#else>
    	public ${item.modelType} get${item.modelNameFirstUpper}() {
 		return ${item.modelName};
 	}
@@ -19,6 +20,7 @@ public class ${tableInfo.modleName}Data extends BaseObject {
 	public void set${item.modelNameFirstUpper}(${item.modelType} ${item.modelName}) {
 		this.${item.modelName} = ${item.modelName};
 	}
+	</#if>
 </#list>
 
 }
