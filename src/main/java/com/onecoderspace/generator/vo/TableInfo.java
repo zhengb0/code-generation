@@ -29,7 +29,7 @@ public class TableInfo {
 		}
 		this.modleName = modelName;
 		this.tableComment = arr[1] != null ? String.valueOf(arr[1]) : "";
-		this.modleNameFirstToLowpper = modleName.substring(0,1).toUpperCase()+modleName.substring(1);
+		this.modleNameFirstToLowpper = modleName.substring(0,1).toLowerCase()+modleName.substring(1);
 	}
 
 	public String getTabelName() {

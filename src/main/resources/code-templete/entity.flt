@@ -35,7 +35,7 @@ public class ${tableInfo.modleName} extends CacheableObject {
     public ${tableInfo.modleName}Data toData() {
         ${tableInfo.modleName}Data data = new ${tableInfo.modleName}Data();
         <#list proList as item>
-        set${item.modelNameFirstUpper}(this.${item.modelName});
+        data.set${item.modelNameFirstUpper}(this.${item.modelName});
         </#list>
         return data;
     }
