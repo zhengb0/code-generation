@@ -16,6 +16,11 @@ public class ${item.modleName}Dal extends SchoolDalBase {
 		super(schoolId);
 	}
 
+    @Override
+    protected String getStmtClass() {
+        return this.getClass().getName();
+    }
+
 	public void create(${item.modleName}Data data) {
     	Map<String, Object> parameters = new HashMap<>();
     	<#list proList as item>
@@ -24,7 +29,7 @@ public class ${item.modleName}Dal extends SchoolDalBase {
         parameters.put("in_${item.columnName}", data.get${item.modelNameFirstUpper}());
         </#if>
         </#list>
-    	Execute("${item.tabelName}_create", parameters);
+    	Update("${item.tabelName}_create", parameters);
     }
 
     public void update(${item.modleName}Data data) {
@@ -35,19 +40,19 @@ public class ${item.modleName}Dal extends SchoolDalBase {
         parameters.put("in_${item.columnName}", data.get${item.modelNameFirstUpper}());
         </#if>
         </#list>
-        Execute("${item.tabelName}_update", parameters);
+        Update("${item.tabelName}_update", parameters);
     }
 
     public void delete(int id) {
         Map<String, Object> parameters = new HashMap<>(2);
         parameters.put("in_id", id);
-        Execute("${item.tabelName}_delete", parameters);
+        Update("${item.tabelName}_delete", parameters);
     }
 
     public ${item.modleName}Data getById(int id) {
         Map<String, Object> parameters = new HashMap<>(2);
         parameters.put("in_id", id);
-        return ExecuteReturnObject("${item.tabelName}_get_by_id", parameters, new ${item.modleName}RowMapper());
+        return QueryForObject("${item.tabelName}_get_by_id", parameters, new ${item.modleName}RowMapper());
     }
 }
 

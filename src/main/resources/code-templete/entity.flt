@@ -2,7 +2,7 @@ package ${packagePath}.manager.model;
 
 import java.util.Date;
 import com.feifanuniv.common.BaseObject;
-import com.feifanuniv.degree.dal.entity.${tableInfo.modleName}Data;
+import com.feifanuniv.gaopei.dal.entity.${tableInfo.modleName}Data;
 
 public class ${tableInfo.modleName} extends CacheableObject {
 <#list proList as item>

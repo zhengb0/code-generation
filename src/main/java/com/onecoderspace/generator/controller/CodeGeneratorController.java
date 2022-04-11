@@ -21,8 +21,8 @@ public class CodeGeneratorController {
 	@RequestMapping("/table")
 	public String table(String dbname,String tableName){
 		Map<String, String> map = Maps.newHashMap();
-		map.put("projectPath", "D:/code-generation");
-		map.put("packagePath", "/src/main/java/com/feifanuniv/degree");
+		map.put("projectPath", "/Users/zhengbo/Documents/IdeaProjects/code-generation");
+		map.put("packagePath", "/src/main/java/com/feifanuniv/gaopei");
 		map.put("templetePath", "/src/main/resources/code-templete");
 		generatorHelperService.setProperty(map);
 		generatorHelperService.oneTable(dbname,tableName);
