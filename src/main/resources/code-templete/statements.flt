@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<statements class="com.feifanuniv.gaopei.dal.${item.modleName}Dal">
+
+    <stmt id="${item.tabelName}_create">
+        INSERT INTO `${item.tabelName}`(<#list proList as item><#if item.modelName == "id"><#else><#if !item_has_next>${item.columnName}<#else>`${item.columnName}`, </#if></#if></#list>)
+        VALUES(<#list proList as item><#if item.modelName == "id"><#else><#if !item_has_next>in_${item.columnName}<#else>in_${item.columnName}, </#if></#if></#list>);
+    </stmt>
+
+    <stmt id="${item.tabelName}_update">
+        UPDATE ${item.tabelName} SET
+            <#list proList as item>
+            <#if item.modelName == "id">
+            <#else>
+            <#if !item_has_next>
+            `${item.columnName}` = in_${item.columnName}
+            <#else>
+            `${item.columnName}` = in_${item.columnName},
+            </#if>
+            </#if>
+            </#list>
+            WHERE id = in_id;
+    </stmt>
+
+    <stmt id="${item.tabelName}_get_all">
+        SELECT * FROM ${item.tabelName};
+    </stmt>
+
+    <stmt id="${item.tabelName}_get_by_id">
+        SELECT * FROM ${item.tabelName} WHERE id = in_id;
+    </stmt>
+</statements>

@@ -6,6 +6,7 @@ import java.io.OutputStreamWriter;
 import java.io.Writer;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.stream.Collectors;
 
@@ -90,10 +91,7 @@ public class GeneratorHelperServiceImpl implements GeneratorHelperService {
 		createModel(item, columnInfos);
 		createOther(item,"dal", columnInfos);
 		createOther(item,"manager", columnInfos);
-		createSproc(item,"create", columnInfos);
-		createSproc(item,"update", columnInfos);
-		createSproc(item,"delete", columnInfos);
-		createSproc(item,"get_by_id", columnInfos);
+		createSproc(item,"Statements", columnInfos);
 		return true;
 	}
 
@@ -200,7 +198,7 @@ public class GeneratorHelperServiceImpl implements GeneratorHelperService {
 			file.mkdirs();
 		}
 		String templetePath = String.format("%s%s", localProjectPath,propertyMap.get("templetePath"));
-		String filePath = String.format("%s/%s.sql", dir,item.getTabelName() + "_" + type);
+		String filePath = String.format("%s/%s.xml", dir,item.getTabelName() + type);
 
 		Map<String, Object> data = Maps.newHashMap();
 		data.put("proList", columnInfos.stream().filter(c->!c.getColumnName().contains("created_time") && !c.getColumnName().contains("updated_time")).collect(Collectors.toList()));
@@ -209,7 +207,7 @@ public class GeneratorHelperServiceImpl implements GeneratorHelperService {
 		data.put("item", item);
 		data.put("packagePath", Joiner.on(".").join(propertyMap.get("packagePath").split("/")).substring(15));
 
-		createTempleteFile(filePath,templetePath,String.format("%s.flt", type), data);
+		createTempleteFile(filePath,templetePath,String.format("%s.flt", type.toLowerCase()), data);
 	}
 
 }
