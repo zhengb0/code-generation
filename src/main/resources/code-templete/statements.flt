@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<statements class="com.feifanuniv.gaopei.dal.${item.modleName}Dal">
+<statements class="${packagePath}.dal.${item.modleName}Dal">
 
     <stmt id="${item.tabelName}_create">
         INSERT INTO `${item.tabelName}`(<#list proList as item><#if item.modelName == "id"><#else><#if !item_has_next>${item.columnName}<#else>`${item.columnName}`, </#if></#if></#list>)

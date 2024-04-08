@@ -2,7 +2,9 @@ package com.onecoderspace.generator.controller;
 
 import java.util.Map;
 
+import org.apache.catalina.core.ApplicationContext;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -21,8 +23,8 @@ public class CodeGeneratorController {
 	@RequestMapping("/table")
 	public String table(String dbname,String tableName){
 		Map<String, String> map = Maps.newHashMap();
-		map.put("projectPath", "/Users/zhengbo/Documents/IdeaProjects/code-generation");
-		map.put("packagePath", "/src/main/java/com/feifanuniv/gaopei");
+		map.put("projectPath", "D:\\IdeaProject\\code-generation");
+		map.put("packagePath", "/src/main/java/com/feifanuniv/teaching");
 		map.put("templetePath", "/src/main/resources/code-templete");
 		generatorHelperService.setProperty(map);
 		generatorHelperService.oneTable(dbname,tableName);
