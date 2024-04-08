@@ -63,7 +63,7 @@ public class ColumnInfo {
 			if(StringUtils.isBlank(this.columnDefault)){
 				this.modelDefault = "0";
 			}
-			this.modelDefault = String.format("%s default %s", this.columnType.substring(0, this.columnType.indexOf("(")),this.modelDefault);
+			this.modelDefault = String.format("%s default %s", this.columnType.indexOf("(") != -1 ? this.columnType.substring(0, this.columnType.indexOf("(")) : this.columnType,this.modelDefault);
 		}else if(typeLower.startsWith("bigint")){
 			this.modelType = "Long";
 			if(StringUtils.isBlank(this.columnDefault)){

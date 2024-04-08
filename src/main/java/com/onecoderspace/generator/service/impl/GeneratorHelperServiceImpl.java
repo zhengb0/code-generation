@@ -198,7 +198,7 @@ public class GeneratorHelperServiceImpl implements GeneratorHelperService {
 			file.mkdirs();
 		}
 		String templetePath = String.format("%s%s", localProjectPath,propertyMap.get("templetePath"));
-		String filePath = String.format("%s/%s.xml", dir,item.getTabelName() + type);
+		String filePath = String.format("%s/%s.xml", dir,item.getModleName() + type);
 
 		Map<String, Object> data = Maps.newHashMap();
 		data.put("proList", columnInfos.stream().filter(c->!c.getColumnName().contains("created_time") && !c.getColumnName().contains("updated_time")).collect(Collectors.toList()));
