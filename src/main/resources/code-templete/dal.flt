@@ -7,7 +7,7 @@ import java.util.Map;
 
 import org.springframework.jdbc.core.RowMapper;
 
-import com.feifanuniv.common.dal.sqlutil.SchoolDalBase;
+import com.feifanuniv.teaching.dal.base.SchoolDalBase;
 import ${packagePath}.dal.entity.${item.modleName}Data;
 
 public class ${item.modleName}Dal extends SchoolDalBase {
